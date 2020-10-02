@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+  <head></head>
+  <body>
+    <script type="module">
+      import { requestNextAnimationFrame } from "./dist/request-animation-helpers.es.min.js";
+
+      requestNextAnimationFrame(() => {
+        console.log('hi');
+      });
+    </script>
+  </body>
+</html>
