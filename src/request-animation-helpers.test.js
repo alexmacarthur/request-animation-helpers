@@ -1,6 +1,7 @@
 import { replaceRaf } from "raf-stub";
 import {
   requestNextAnimationFrame,
+  cancelNextAnimationFrame,
   allRequestIds,
 } from "./request-animation-helpers";
 
@@ -45,5 +46,18 @@ describe("requestNextAnimationFrame", () => {
     requestAnimationFrame.step();
 
     expect(mockFunction.mock.calls.length).toBe(1);
+  });
+});
+
+describe("cancelNextAnimationFrame", () => {
+  it("cancels by id", () => {
+    const id = requestNextAnimationFrame(() => {});
+    const idAsString = Number(id).toString();
+
+    expect(allRequestIds).toHaveProperty(idAsString);
+
+    cancelNextAnimationFrame(id);
+
+    expect(allRequestIds).not.toHaveProperty(idAsString);
   });
 });
