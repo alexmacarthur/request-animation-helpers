@@ -28,7 +28,7 @@ In the event you need to cancel the callback defined for `afterFuturePaint`, use
 import { afterFuturePaint } from "request-animation-helpers";
 
 afterFuturePaint(() => {
-  console.log('will fire after the next repaint!');
+  console.log("will fire after the next repaint!");
 });
 ```
 
@@ -38,17 +38,20 @@ afterFuturePaint(() => {
 import { afterFuturePaint } from "request-animation-helpers";
 
 afterFuturePaint(() => {
-  console.log('will fire after 5 repaints!');
+  console.log("will fire after 5 repaints!");
 }, 5);
 ```
 
 ### Cancel a Scheduled Callback from Firing
 
 ```js
-import { afterFuturePaint, cancelAfterFuturePaint } from "request-animation-helpers";
+import {
+  afterFuturePaint,
+  cancelAfterFuturePaint,
+} from "request-animation-helpers";
 
 const id = afterFuturePaint(() => {
-  console.log('will fire after next repaint!');
+  console.log("will fire after next repaint!");
 });
 
 // will no longer fire after next repaint!
@@ -67,4 +70,3 @@ To use these helpers an old-school environment, or without the help of a bundler
   }, 2);
 </script>
 ```
-

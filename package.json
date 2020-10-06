@@ -9,7 +9,7 @@
     "start": "serve",
     "build": "NODE_ENV=production rollup -c",
     "watch": "NODE_ENV=development rollup -c -w",
-    "prettify": "prettier src/**/*.js --write",
+    "prettify": "prettier \"**/*.{md,js}\" --write",
     "test": "jest src"
   },
   "files": [

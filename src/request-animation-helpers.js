@@ -26,7 +26,7 @@ export const afterFuturePaint = (callback, numberOfPaints = 1) => {
   let runs = 0;
 
   const requestFrame = () => {
-    if(runs < numberOfPaints) {
+    if (runs < numberOfPaints) {
       runs++;
       allRequestIds[id] = requestAnimationFrame(requestFrame);
       return;
@@ -34,7 +34,7 @@ export const afterFuturePaint = (callback, numberOfPaints = 1) => {
 
     delete allRequestIds[id];
     callback();
-  }
+  };
 
   allRequestIds[id] = requestAnimationFrame(requestFrame);
 
