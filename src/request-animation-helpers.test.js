@@ -1,27 +1,27 @@
 import { replaceRaf } from "raf-stub";
 import {
-  requestNextAnimationFrame,
-  cancelNextAnimationFrame,
+  afterFuturePaint,
+  cancelAfterFuturePaint,
   allRequestIds,
 } from "./request-animation-helpers";
 
 replaceRaf();
 
-describe("requestNextAnimationFrame", () => {
+describe("afterFuturePaint", () => {
   it("returns unique ID", () => {
-    const id = requestNextAnimationFrame(() => {});
+    const id = afterFuturePaint(() => {});
 
     expect(id).toBeGreaterThan(0);
   });
 
   it("requests persist when repaints have not occurred", () => {
-    const id = requestNextAnimationFrame(() => {});
+    const id = afterFuturePaint(() => {});
 
     expect(allRequestIds).toHaveProperty(id.toString());
   });
 
   it("requests is deleted after callbacks have fired.", () => {
-    const id = requestNextAnimationFrame(() => {});
+    const id = afterFuturePaint(() => {});
 
     requestAnimationFrame.step();
     requestAnimationFrame.step();
@@ -31,7 +31,7 @@ describe("requestNextAnimationFrame", () => {
 
   it("does not fire callback before next repaint", () => {
     const mockFunction = jest.fn();
-    requestNextAnimationFrame(mockFunction);
+    afterFuturePaint(mockFunction);
 
     requestAnimationFrame.step();
 
@@ -40,23 +40,38 @@ describe("requestNextAnimationFrame", () => {
 
   it("fires callback after next repaint", () => {
     const mockFunction = jest.fn();
-    requestNextAnimationFrame(mockFunction);
+    afterFuturePaint(mockFunction);
 
     requestAnimationFrame.step();
     requestAnimationFrame.step();
 
     expect(mockFunction.mock.calls.length).toBe(1);
   });
+
+  it("fires callback after several future paints", () => {
+    const mockFunction = jest.fn();
+    afterFuturePaint(mockFunction, 5);
+
+    for (let i in new Array(5).fill()) {
+      requestAnimationFrame.step();
+    }
+
+    expect(mockFunction.mock.calls.length).toBe(0);
+
+    requestAnimationFrame.step();
+
+    expect(mockFunction.mock.calls.length).toBe(1);
+  });
 });
 
-describe("cancelNextAnimationFrame", () => {
+describe("cancelAfterFuturePaint", () => {
   it("cancels by id", () => {
-    const id = requestNextAnimationFrame(() => {});
+    const id = afterFuturePaint(() => {});
     const idAsString = Number(id).toString();
 
     expect(allRequestIds).toHaveProperty(idAsString);
 
-    cancelNextAnimationFrame(id);
+    cancelAfterFuturePaint(id);
 
     expect(allRequestIds).not.toHaveProperty(idAsString);
   });

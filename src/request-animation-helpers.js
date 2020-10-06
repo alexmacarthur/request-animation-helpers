@@ -21,15 +21,22 @@ const generateRequestId = () => {
  * @param {function} callback
  * @returns {number} generated request ID for requestAnimationFrame instances
  */
-export const requestNextAnimationFrame = (callback) => {
+export const afterFuturePaint = (callback, numberOfPaints = 1) => {
   const id = generateRequestId();
+  let runs = 0;
 
-  allRequestIds[id] = requestAnimationFrame(() => {
-    allRequestIds[id] = requestAnimationFrame(() => {
-      delete allRequestIds[id];
-      callback();
-    });
-  });
+  const requestFrame = () => {
+    if(runs < numberOfPaints) {
+      runs++;
+      allRequestIds[id] = requestAnimationFrame(requestFrame);
+      return;
+    }
+
+    delete allRequestIds[id];
+    callback();
+  }
+
+  allRequestIds[id] = requestAnimationFrame(requestFrame);
 
   return id;
 };
@@ -40,7 +47,7 @@ export const requestNextAnimationFrame = (callback) => {
  * @param {number} id
  * @returns {void}
  */
-export const cancelNextAnimationFrame = (id) => {
+export const cancelAfterFuturePaint = (id) => {
   cancelAnimationFrame(allRequestIds[id]);
   delete allRequestIds[id];
 };

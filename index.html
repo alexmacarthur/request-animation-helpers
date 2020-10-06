@@ -3,11 +3,18 @@
   <head></head>
   <body>
     <script type="module">
-      import { requestNextAnimationFrame } from "./dist/request-animation-helpers.es.min.js";
+      // import { afterFuturePaint } from "./src/request-animation-helpers.js";
 
-      requestNextAnimationFrame(() => {
-        console.log('hi');
-      });
+      // afterFuturePaint(() => {
+      //   console.log('done!');
+      // }, 2);
+    </script>
+
+    <script src="./dist/request-animation-helpers.min.js"></script>
+    <script>
+      RAHelpers.afterFuturePaint(() => {
+        console.log('done!');
+      }, 2);
     </script>
   </body>
 </html>

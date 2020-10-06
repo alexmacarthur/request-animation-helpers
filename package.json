@@ -18,8 +18,8 @@
   ],
   "keywords": [
     "requestAnimationFrame",
-    "requestNextAnimationFrame",
-    "cancelNextAnimationFrame"
+    "afterFuturePaint",
+    "cancelAfterFuturePaint"
   ],
   "author": "Alex MacArthur <alex@macarthur.me> (https://macarthur.me)",
   "license": "ISC",

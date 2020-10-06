@@ -8,13 +8,13 @@ The creation of this package was first inspired while writing [this blog post](h
 
 The following functions are exported from this library:
 
-### requestNextAnimationFrame(callbackFunction)
+### afterFuturePaint(callbackFunction[, numberOfPaints = 1])
 
-Fire a callback _after_ the browser's next paint. This is handy when you need to perform some sort of action only after previous DOM changes have been painted to the DOM.
+Fire a callback _after_ the browser's next paint. This is handy when you need to perform some sort of action only after previous DOM changes have been painted to the DOM. If a second paramter is passed, the callback will fire only after that many paints have taken place.
 
-### cancelNextAnimationFrame(id)
+### cancelAfterFuturePaint(id)
 
-In the event you need to cancel the callback defined for `requestNextAnimationFrame`, use `cancelNextAnimationFrame` to cancel that callback, preventing it from firing.
+In the event you need to cancel the callback defined for `afterFuturePaint`, use `cancelAfterFuturePaint` to cancel that callback, preventing it from firing.
 
 ## Installation
 
@@ -22,4 +22,49 @@ In the event you need to cancel the callback defined for `requestNextAnimationFr
 
 ## Usage
 
-Coming soon...
+### Fire a Callback After Next Repaint
+
+```js
+import { afterFuturePaint } from "request-animation-helpers";
+
+afterFuturePaint(() => {
+  console.log('will fire after the next repaint!');
+});
+```
+
+### Fire a Callback After Several Repaints
+
+```js
+import { afterFuturePaint } from "request-animation-helpers";
+
+afterFuturePaint(() => {
+  console.log('will fire after 5 repaints!');
+}, 5);
+```
+
+### Cancel a Scheduled Callback from Firing
+
+```js
+import { afterFuturePaint, cancelAfterFuturePaint } from "request-animation-helpers";
+
+const id = afterFuturePaint(() => {
+  console.log('will fire after next repaint!');
+});
+
+// will no longer fire after next repaint!
+cancelAfterFuturePaint(id);
+```
+
+## Non-Module Usage
+
+To use these helpers an old-school environment, or without the help of a bundler, reference the `RAHelpers` object and call the method you desire:
+
+```js
+<script src="src/to/request-animation-helpers.js"></script>
+<script>
+  RAHelpers.afterFuturePaint(() => {
+    console.log('done!');
+  }, 2);
+</script>
+```
+
