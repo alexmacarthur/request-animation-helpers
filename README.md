@@ -42,7 +42,7 @@ afterFuturePaint(() => {
 }, 5);
 ```
 
-### Cancel a Scheduled Callback from Firing
+### Cancel a Scheduled Callback
 
 ```js
 import {
